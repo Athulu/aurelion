@@ -64,7 +64,7 @@ public class Project {
         return client;
     }
     
-    public void setClient(String status) {
+    public void setClient(String client) {
         this.client = client;
     }
     
