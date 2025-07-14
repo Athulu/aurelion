@@ -1,7 +1,10 @@
 package aurelion.controller;
 
+import aurelion.enums.EnvironmentEnum;
+import aurelion.model.DatabaseModel;
+import aurelion.model.ProjectModel;
 import aurelion.model.WildflyModel;
-import aurelion.repository.ProjectRepository;
+import aurelion.repository.WildflyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,23 +17,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class WildflyController {
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private WildflyRepository wildflyRepository;
 
     @PostMapping("/update")
     public String updateProject(@RequestParam Long id,
                                 @RequestParam String name,
-                                @RequestParam String client,
+                                @RequestParam ProjectModel project,
                                 @RequestParam String environment,
-                                @RequestParam String database,
+                                @RequestParam DatabaseModel database,
                                 RedirectAttributes redirectAttributes) {
         try {
-            WildflyModel wildflyModel = projectRepository.findById(id).orElse(null);
+            WildflyModel wildflyModel = wildflyRepository.findById(id).orElse(null);
             if (wildflyModel != null) {
                 wildflyModel.setName(name);
-                wildflyModel.setClient(client);
-                wildflyModel.setEnvironment(environment);
+                wildflyModel.setProject(project);
+                wildflyModel.setEnvironment(EnvironmentEnum.valueOf(environment));
                 wildflyModel.setDatabase(database);
-                projectRepository.save(wildflyModel);
+                wildflyRepository.save(wildflyModel);
                 redirectAttributes.addFlashAttribute("message", "Project updated successfully!");
                 redirectAttributes.addFlashAttribute("messageType", "success");
             } else {
@@ -47,8 +50,8 @@ public class WildflyController {
     @PostMapping("/delete")
     public String deleteProject(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         try {
-            if (projectRepository.existsById(id)) {
-                projectRepository.deleteById(id);
+            if (wildflyRepository.existsById(id)) {
+                wildflyRepository.deleteById(id);
                 redirectAttributes.addFlashAttribute("message", "Project deleted successfully!");
                 redirectAttributes.addFlashAttribute("messageType", "success");
             } else {

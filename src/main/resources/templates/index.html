@@ -144,28 +144,28 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="wildflyModel : ${wildflyModelList}">
-                                        <td th:text="${wildflyModel.name}">Project Name</td>
+                                    <tr th:each="wildflyData : ${wildflyDataList}">
+                                        <td th:text="${wildflyData.wildflyName}">Project Name</td>
                                         <td>
-                                            <span th:text="${wildflyModel.client}">Client</span>
+                                            <span th:text="${wildflyData.projectName}">Client</span>
                                         </td>
                                         <td>
-                                            <span th:class="${'badge ' + (wildflyModel.environment == 'LOCAL' ? 'bg-danger' :
-                                                                        wildflyModel.environment == 'TEST' ? 'bg-primary' :
-                                                                        wildflyModel.environment == 'RC' ? 'bg-warning' :
+                                            <span th:class="${'badge ' + (wildflyData.environmentName == 'LOCAL' ? 'bg-danger' :
+                                                                        wildflyData.environmentName == 'TEST' ? 'bg-primary' :
+                                                                        wildflyData.environmentName == 'RC' ? 'bg-warning' :
                                                                         'bg-info')}" 
-                                                  th:text="${wildflyModel.environment}">Environment</span>
+                                                  th:text="${wildflyData.environmentName}">Environment</span>
                                         </td>
-                                        <td th:text="${wildflyModel.database}">Database</td>
-                                        <td th:text="${#temporals.format(wildflyModel.lastModified, 'yyyy-MM-dd HH:mm')}">Last Modified</td>
+                                        <td th:text="${wildflyData.databasePath}">Database</td>
+                                        <td th:text="${#temporals.format(wildflyData.lastModified, 'yyyy-MM-dd HH:mm')}">Last Modified</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" th:attr="onclick='openEditModal(' + ${wildflyModel.id} + ', \'' + ${wildflyModel.name} + '\', \'' + ${wildflyModel.client} + '\', \'' + ${wildflyModel.environment} + '\', \'' + ${wildflyModel.database} + '\')'">
+                                            <button class="btn btn-sm btn-primary" th:attr="onclick='openEditModal(' + ${wildflyData.id} + ', \'' + ${wildflyData.wildflyName} + '\', \'' + ${wildflyData.projectName} + '\', \'' + ${wildflyData.environmentName} + '\', \'' + ${wildflyData.databasePath} + '\')'">
                                                 <i class="fas fa-edit"></i> Modify
                                             </button>
                                             <form th:action="@{/api/wildfly/delete}" method="post" style="display: inline;">
-                                                <input type="hidden" name="id" th:value="${wildflyModel.id}">
+                                                <input type="hidden" name="id" th:value="${wildflyData.id}">
                                                 <button type="submit" class="btn btn-sm btn-danger" 
-                                                        onclick="return confirm('Are you sure you want to delete this wildflyModel?')">
+                                                        onclick="return confirm('Are you sure you want to delete this wildflyData?')">
                                                     <i class="fas fa-trash"></i> Delete
                                                 </button>
                                             </form>
