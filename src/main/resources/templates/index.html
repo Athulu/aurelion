@@ -91,27 +91,37 @@
                                         </div>
                                         <div class="modal-body">
                                             <form th:action="@{/api/wildfly/update}" method="post" id="projectForm">
-                                                <input type="hidden" id="projectId" name="id">
+                                                <input type="hidden" id="formWildflyId" name="id">
                                                 <div class="mb-3">
-                                                    <label for="projectName" class="form-label">Project Name</label>
-                                                    <input type="text" class="form-control" id="projectName" name="name" required>
+                                                    <label for="formWildflyName" class="form-label">Project Name</label>
+                                                    <input type="text" class="form-control" id="formWildflyName" name="name" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="projectClient" class="form-label">Client</label>
-                                                    <input type="text" class="form-control" id="projectClient" name="client" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="projectEnvironment" class="form-label">Environment</label>
-                                                    <select class="form-select" id="projectEnvironment" name="environment" required>
-                                                        <option value="PRODUCTION">PRODUCTION</option>
-                                                        <option value="DEVELOPMENT">DEVELOPMENT</option>
-                                                        <option value="STAGING">STAGING</option>
-                                                        <option value="TESTING">TESTING</option>
+                                                    <label for="formProjectId" class="form-label">Project</label>
+                                                    <select class="form-select" id="formProjectId" name="projectId" required>
+                                                        <option th:each="project : ${projectList}"
+                                                                th:value="${project.id}"
+                                                                th:text="${project.name}">
+                                                        </option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="projectDatabase" class="form-label">Database</label>
-                                                    <input type="text" class="form-control" id="projectDatabase" name="database" required>
+                                                    <label for="formEnvironment" class="form-label">Environment</label>
+                                                    <select class="form-select" id="formEnvironment" name="environment" required>
+                                                        <option value="LOCAL">LOCAL</option>
+                                                        <option value="TEST">TEST</option>
+                                                        <option value="RC">RC</option>
+                                                        <option value="PROD">PROD</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="formDatabaseId" class="form-label">Database</label>
+                                                    <select class="form-select" id="formDatabaseId" name="databaseId" required>
+                                                        <option th:each="database : ${databaseList}"
+                                                                th:value="${database.id}"
+                                                                th:text="|${database.name} (${database.path})|">
+                                                        </option>
+                                                    </select>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button
@@ -153,13 +163,19 @@
                                             <span th:class="${'badge ' + (wildflyData.environmentName == 'LOCAL' ? 'bg-danger' :
                                                                         wildflyData.environmentName == 'TEST' ? 'bg-primary' :
                                                                         wildflyData.environmentName == 'RC' ? 'bg-warning' :
-                                                                        'bg-info')}" 
+                                                                        'bg-info')}"
                                                   th:text="${wildflyData.environmentName}">Environment</span>
                                         </td>
                                         <td th:text="${wildflyData.databasePath}">Database</td>
                                         <td th:text="${#temporals.format(wildflyData.lastModified, 'yyyy-MM-dd HH:mm')}">Last Modified</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" th:attr="onclick='openEditModal(' + ${wildflyData.id} + ', \'' + ${wildflyData.wildflyName} + '\', \'' + ${wildflyData.projectName} + '\', \'' + ${wildflyData.environmentName} + '\', \'' + ${wildflyData.databasePath} + '\')'">
+                                            <button class="btn btn-sm btn-primary"
+                                                    th:data-id="${wildflyData.id}"
+                                                    th:data-name="${wildflyData.wildflyName}"
+                                                    th:data-project-id="${wildflyData.projectId}"
+                                                    th:data-environment="${wildflyData.environmentName}"
+                                                    th:data-database-id="${wildflyData.databaseId}"
+                                                    onclick="openEditModalFromButton(this)">
                                                 <i class="fas fa-edit"></i> Modify
                                             </button>
                                             <form th:action="@{/api/wildfly/delete}" method="post" style="display: inline;">
@@ -190,17 +206,25 @@
         <script>
             let datatable;
 
-            function openEditModal(id, name, client, environment, database) {
-                // Wypełnij formularz danymi projektu
-                document.getElementById('projectId').value = id;
-                document.getElementById('projectName').value = name;
-                document.getElementById('projectClient').value = client;
-                document.getElementById('projectEnvironment').value = environment;
-                document.getElementById('projectDatabase').value = database;
-                
-                // Otwórz modal
+            function openEditModal(id, name, projectId, environment, databaseId) {
+                document.getElementById('formWildflyId').value = id;
+                document.getElementById('formWildflyName').value = name;
+                document.getElementById('formProjectId').value = projectId;
+                document.getElementById('formEnvironment').value = environment;
+                document.getElementById('formDatabaseId').value = databaseId;
+
                 const modal = new bootstrap.Modal(document.getElementById('projectModal'));
                 modal.show();
+            }
+
+            function openEditModalFromButton(btn) {
+                openEditModal(
+                    btn.getAttribute('data-id'),
+                    btn.getAttribute('data-name'),
+                    btn.getAttribute('data-project-id'),
+                    btn.getAttribute('data-environment'),
+                    btn.getAttribute('data-database-id')
+                );
             }
         </script>
     </body>

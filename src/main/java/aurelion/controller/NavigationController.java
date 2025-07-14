@@ -2,6 +2,8 @@ package aurelion.controller;
 
 import aurelion.dto.WildflyData;
 import aurelion.model.WildflyModel;
+import aurelion.repository.DatabaseRepository;
+import aurelion.repository.ProjectRepository;
 import aurelion.repository.WildflyRepository;
 import aurelion.service.WildflyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,12 @@ public class NavigationController {
     private WildflyRepository wildflyRepository;
 
     @Autowired
+    private DatabaseRepository databaseRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
     private WildflyService wildflyService;
 
     @GetMapping("/")
@@ -25,6 +33,8 @@ public class NavigationController {
 //        List<WildflyModel> wildflyModelList = wildflyRepository.findAll();
         List<WildflyData> wildflyDataList = wildflyService.getWildflyDataList();
         model.addAttribute("wildflyDataList", wildflyDataList);
+        model.addAttribute("databaseList", databaseRepository.findAll());
+        model.addAttribute("projectList", projectRepository.findAll());
         return "index";
     }
 

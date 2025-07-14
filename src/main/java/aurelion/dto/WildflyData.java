@@ -12,4 +12,6 @@ public class WildflyData {
     private String environmentName;
     private String databasePath;
     private LocalDateTime lastModified;
+    private Long projectId;
+    private Long databaseId;
 }
