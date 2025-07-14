@@ -40,9 +40,9 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Configuration</div>
-                            <a class="nav-link" href="/projects">
+                            <a class="nav-link" href="/charts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Projects
+                                Charts
                             </a>
                             <a class="nav-link" href="/databases">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
@@ -90,7 +90,7 @@
                                             ></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form th:action="@{/projects/update}" method="post" id="projectForm">
+                                            <form th:action="@{/api/wildfly/update}" method="post" id="projectForm">
                                                 <input type="hidden" id="projectId" name="id">
                                                 <div class="mb-3">
                                                     <label for="projectName" class="form-label">Project Name</label>
@@ -144,28 +144,28 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="project : ${projects}">
-                                        <td th:text="${project.name}">Project Name</td>
+                                    <tr th:each="wildflyModel : ${wildflyModelList}">
+                                        <td th:text="${wildflyModel.name}">Project Name</td>
                                         <td>
-                                            <span th:text="${project.client}">Client</span>
+                                            <span th:text="${wildflyModel.client}">Client</span>
                                         </td>
                                         <td>
-                                            <span th:class="${'badge ' + (project.environment == 'PRODUCTION' ? 'bg-danger' :
-                                                                        project.environment == 'DEVELOPMENT' ? 'bg-primary' : 
-                                                                        project.environment == 'STAGING' ? 'bg-warning' : 
+                                            <span th:class="${'badge ' + (wildflyModel.environment == 'LOCAL' ? 'bg-danger' :
+                                                                        wildflyModel.environment == 'TEST' ? 'bg-primary' :
+                                                                        wildflyModel.environment == 'RC' ? 'bg-warning' :
                                                                         'bg-info')}" 
-                                                  th:text="${project.environment}">Environment</span>
+                                                  th:text="${wildflyModel.environment}">Environment</span>
                                         </td>
-                                        <td th:text="${project.database}">Database</td>
-                                        <td th:text="${#temporals.format(project.lastModified, 'yyyy-MM-dd HH:mm')}">Last Modified</td>
+                                        <td th:text="${wildflyModel.database}">Database</td>
+                                        <td th:text="${#temporals.format(wildflyModel.lastModified, 'yyyy-MM-dd HH:mm')}">Last Modified</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary" th:attr="onclick='openEditModal(' + ${project.id} + ', \'' + ${project.name} + '\', \'' + ${project.client} + '\', \'' + ${project.environment} + '\', \'' + ${project.database} + '\')'">
+                                            <button class="btn btn-sm btn-primary" th:attr="onclick='openEditModal(' + ${wildflyModel.id} + ', \'' + ${wildflyModel.name} + '\', \'' + ${wildflyModel.client} + '\', \'' + ${wildflyModel.environment} + '\', \'' + ${wildflyModel.database} + '\')'">
                                                 <i class="fas fa-edit"></i> Modify
                                             </button>
-                                            <form th:action="@{/projects/delete}" method="post" style="display: inline;">
-                                                <input type="hidden" name="id" th:value="${project.id}">
+                                            <form th:action="@{/api/wildfly/delete}" method="post" style="display: inline;">
+                                                <input type="hidden" name="id" th:value="${wildflyModel.id}">
                                                 <button type="submit" class="btn btn-sm btn-danger" 
-                                                        onclick="return confirm('Are you sure you want to delete this project?')">
+                                                        onclick="return confirm('Are you sure you want to delete this wildflyModel?')">
                                                     <i class="fas fa-trash"></i> Delete
                                                 </button>
                                             </form>

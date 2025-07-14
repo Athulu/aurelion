@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "projects")
-public class Project {
+@Table(name = "wildflies")
+public class WildflyModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +26,9 @@ public class Project {
     @Column(name = "database", nullable = false)
     private String database;
 
-    public Project() {}
+    public WildflyModel() {}
     
-    public Project(String name, String client, String environment, String database) {
+    public WildflyModel(String name, String client, String environment, String database) {
         this.name = name;
         this.lastModified = LocalDateTime.now();
         this.client = client;
