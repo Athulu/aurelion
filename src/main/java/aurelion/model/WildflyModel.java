@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "wildflies")
 public class WildflyModel {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @Column(name = "environment", nullable = false)
     private EnvironmentEnum environment;
 
