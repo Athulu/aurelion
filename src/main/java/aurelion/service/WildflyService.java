@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class WildflyService {
     private final DatabaseRepository databaseRepository;
     private final ProjectRepository projectRepository;
@@ -44,19 +44,20 @@ public class WildflyService {
     public List<WildflyData> getWildflyDataList() {
         List<WildflyModel> wildflyModelList = wildflyRepository.findAll();
         List<WildflyData> wildflyDataList = new ArrayList<>();
-        for (WildflyModel wildflyModel : wildflyModelList) {
-            WildflyData wildflyData = new WildflyData();
-            wildflyData.setId(wildflyModel.getId());
-            wildflyData.setWildflyName(wildflyModel.getName());
-            wildflyData.setProjectName(wildflyModel.getProject().getName());
-            wildflyData.setProjectId(wildflyModel.getProject().getId());
-            wildflyData.setEnvironmentName(wildflyModel.getEnvironment().name());
-            wildflyData.setDatabasePath(wildflyModel.getDatabase().getPath());
-            wildflyData.setDatabaseId(wildflyModel.getDatabase().getId());
-            wildflyData.setLastModified(wildflyModel.getLastModified());
-            wildflyDataList.add(wildflyData);
-        }
 
+        for (WildflyModel wildflyModel : wildflyModelList) {
+            wildflyDataList.add(WildflyData.builder()
+                    .withId(wildflyModel.getId())
+                    .withWildflyName(wildflyModel.getName())
+                    .withProjectName(wildflyModel.getProject().getName())
+                    .withProjectId(wildflyModel.getProject().getId())
+                    .withEnvironmentName(wildflyModel.getEnvironment().name())
+                    .withDatabasePath(wildflyModel.getDatabase().getPath())
+                    .withDatabaseId(wildflyModel.getDatabase().getId())
+                    .withLastModified(wildflyModel.getLastModified())
+                    .build()
+            );
+        }
         return wildflyDataList;
     }
 }

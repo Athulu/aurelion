@@ -6,7 +6,7 @@ import aurelion.repository.DatabaseRepository;
 import aurelion.repository.ProjectRepository;
 import aurelion.repository.WildflyRepository;
 import aurelion.service.WildflyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,23 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class NavigationController {
-
-    @Autowired
-    private WildflyRepository wildflyRepository;
-
-    @Autowired
-    private DatabaseRepository databaseRepository;
-
-    @Autowired
-    private ProjectRepository projectRepository;
-
-    @Autowired
-    private WildflyService wildflyService;
+    private final WildflyRepository wildflyRepository;
+    private final DatabaseRepository databaseRepository;
+    private final ProjectRepository projectRepository;
+    private final WildflyService wildflyService;
 
     @GetMapping("/")
     public String index(Model model) {
-//        List<WildflyModel> wildflyModelList = wildflyRepository.findAll();
         List<WildflyData> wildflyDataList = wildflyService.getWildflyDataList();
         model.addAttribute("wildflyDataList", wildflyDataList);
         model.addAttribute("databaseList", databaseRepository.findAll());

@@ -7,10 +7,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
 @Table(name = "projects")
 public class ProjectModel {
     @Id

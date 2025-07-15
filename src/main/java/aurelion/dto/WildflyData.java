@@ -1,10 +1,12 @@
 package aurelion.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder(setterPrefix = "with")
 public class WildflyData {
     private Long id;
     private String wildflyName;

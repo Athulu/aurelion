@@ -6,6 +6,7 @@ import aurelion.model.ProjectModel;
 import aurelion.model.WildflyModel;
 import aurelion.repository.WildflyRepository;
 import aurelion.service.WildflyService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
+@AllArgsConstructor
 @RequestMapping("/api/wildfly")
 public class WildflyController {
-
-    @Autowired
-    private WildflyRepository wildflyRepository;
-
-    @Autowired
-    private WildflyService wildflyService;
+    private final WildflyRepository wildflyRepository;
+    private final WildflyService wildflyService;
 
     @PostMapping("/update")
     public String updateProject(@RequestParam Long id,
