@@ -60,4 +60,20 @@ public class WildflyService {
         }
         return wildflyDataList;
     }
+
+    public void deleteWildfly(final Long id, RedirectAttributes redirectAttributes) {
+        try {
+            if (wildflyRepository.existsById(id)) {
+                wildflyRepository.deleteById(id);
+                redirectAttributes.addFlashAttribute("message", "Project deleted successfully!");
+                redirectAttributes.addFlashAttribute("messageType", "success");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Project not found!");
+                redirectAttributes.addFlashAttribute("messageType", "danger");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Error deleting project: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageType", "danger");
+        }
+    }
 }

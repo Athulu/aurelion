@@ -1,11 +1,8 @@
 package aurelion.controller;
 
-import aurelion.dto.WildflyData;
 import aurelion.model.WildflyModel;
-import aurelion.repository.DatabaseRepository;
-import aurelion.repository.ProjectRepository;
 import aurelion.repository.WildflyRepository;
-import aurelion.service.WildflyService;
+import aurelion.service.NavigationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 public class NavigationController {
     private final WildflyRepository wildflyRepository;
-    private final DatabaseRepository databaseRepository;
-    private final ProjectRepository projectRepository;
-    private final WildflyService wildflyService;
+    private final NavigationService navigationService;
 
     @GetMapping("/")
     public String index(Model model) {
-        List<WildflyData> wildflyDataList = wildflyService.getWildflyDataList();
-        model.addAttribute("wildflyDataList", wildflyDataList);
-        model.addAttribute("databaseList", databaseRepository.findAll());
-        model.addAttribute("projectList", projectRepository.findAll());
+        navigationService.setAttributes(model);
         return "index";
     }
 
