@@ -2,16 +2,12 @@ package aurelion.model;
 
 import aurelion.enums.EnvironmentEnum;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Table(name = "databases")
 public class DatabaseModel {
     @Id
@@ -35,13 +31,4 @@ public class DatabaseModel {
 
     @OneToMany(mappedBy = "database", cascade = CascadeType.ALL)
     private List<WildflyModel> wildflyModels;
-
-    public DatabaseModel(String name, String path, String username, String password, EnvironmentEnum environment, List<WildflyModel> wildflyModels) {
-        this.name = name;
-        this.path = path;
-        this.username = username;
-        this.password = password;
-        this.environment = environment;
-        this.wildflyModels = wildflyModels;
-    }
 }

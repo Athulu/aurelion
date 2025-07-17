@@ -2,16 +2,12 @@ package aurelion.model;
 
 import aurelion.enums.EnvironmentEnum;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Table(name = "wildflies")
 public class WildflyModel {
 
@@ -35,14 +31,6 @@ public class WildflyModel {
     @ManyToOne
     @JoinColumn(name = "database_id")
     private DatabaseModel database;
-
-    public WildflyModel(String name, EnvironmentEnum environment, LocalDateTime lastModified, ProjectModel project, DatabaseModel database) {
-        this.name = name;
-        this.environment = environment;
-        this.lastModified = lastModified;
-        this.project = project;
-        this.database = database;
-    }
 
     @PreUpdate
     public void preUpdate() {

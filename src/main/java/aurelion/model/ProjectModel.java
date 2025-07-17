@@ -1,16 +1,12 @@
 package aurelion.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Table(name = "projects")
 public class ProjectModel {
     @Id
@@ -22,9 +18,4 @@ public class ProjectModel {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<WildflyModel> wildflyModels;
-
-    public ProjectModel(String name, List<WildflyModel> wildflyModels) {
-        this.name = name;
-        this.wildflyModels = wildflyModels;
-    }
 }
