@@ -6,13 +6,6 @@ import java.util.List;
 
 public class WildflyStructureDetector {
 
-    /**
-     * Sprawdza, czy dany folder zawiera strukturę WildFly/JBoss
-     * (czyli plik 'standalone.xml' w podfolderze 'configuration').
-     *
-     * @param baseDir katalog do sprawdzenia
-     * @return true, jeśli struktura jest zgodna z WildFly/JBoss
-     */
     public boolean isWildflyStructure(File baseDir) {
         if (baseDir == null || !baseDir.isDirectory()) {
             return false;
@@ -24,13 +17,6 @@ public class WildflyStructureDetector {
         return standaloneXml.exists() && standaloneXml.isFile();
     }
 
-    /**
-     * Przeszukuje katalogi wewnątrz folderu root i zwraca listę tych,
-     * które mają strukturę WildFly/JBoss.
-     *
-     * @param root katalog, w którym szukać instancji WildFly
-     * @return lista folderów z rozpoznaną strukturą
-     */
     public List<File> findWildflyInstances(File root) {
         List<File> wildflyFolders = new ArrayList<>();
 
@@ -51,12 +37,12 @@ public class WildflyStructureDetector {
     }
 
     public static void main(String[] args) {
-        File rootDirectory = new File("/ścieżka/do/katalogu");
+        File rootDirectory = new File("D:\\inne\\inne 2025\\wildfly-17.0.0.Final");
         WildflyStructureDetector detector = new WildflyStructureDetector();
 
         List<File> wildflyInstances = detector.findWildflyInstances(rootDirectory);
         for (File instance : wildflyInstances) {
-            System.out.println("Znaleziono instancję WildFly: " + instance.getAbsolutePath());
+            System.out.println(instance.getAbsolutePath());
         }
     }
 }
